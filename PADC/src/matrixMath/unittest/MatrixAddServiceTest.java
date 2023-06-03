@@ -1,6 +1,6 @@
 package matrixMath.unittest;
 
-import matrixMath.MatrixAddService;
+import matrixMath.services.MatrixAddService;
 import models.Matrix;
 import org.junit.jupiter.api.Test;
 

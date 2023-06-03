@@ -1,4 +1,4 @@
-package matrixMath;
+package matrixMath.services;
 
 import matrixMath.common.MatrixService;
 import matrixMath.common.RowIteration;
@@ -9,22 +9,22 @@ import java.util.List;
 
 public class MatrixMaxValueService extends MatrixService {
 
-    private List<Double> potentialMaxValues;
+    protected List<Double> potentialResultValues;
 
     public MatrixMaxValueService(Matrix lhs) {
 
         super(lhs);
 
-        this.potentialMaxValues = new ArrayList<>(lhs.getRowsAmount());
+        this.potentialResultValues = new ArrayList<>(lhs.getRowsAmount());
     }
 
-    public Double findMax() throws InterruptedException {
+    public Double find() throws InterruptedException {
 
         iterateThroughRows(new RowIteration() {
             @Override
             public void iterate(int row) {
 
-                potentialMaxValues.add(lhs.getRow(row).getData()
+                potentialResultValues.add(lhs.getRow(row).getData()
                         .stream()
                         .mapToDouble(Double::doubleValue)
                         .max()
@@ -32,7 +32,7 @@ public class MatrixMaxValueService extends MatrixService {
             }
         });
 
-        return potentialMaxValues.stream()
+        return potentialResultValues.stream()
                 .mapToDouble(Double::doubleValue)
                 .max()
                 .getAsDouble();

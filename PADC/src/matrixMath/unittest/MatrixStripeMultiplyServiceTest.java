@@ -1,6 +1,6 @@
 package matrixMath.unittest;
 
-import matrixMath.MatrixStripeMultiplyService;
+import matrixMath.services.MatrixStripeMultiplyService;
 import models.Matrix;
 import org.junit.jupiter.api.Test;
 

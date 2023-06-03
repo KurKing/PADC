@@ -1,4 +1,4 @@
-package matrixMath;
+package matrixMath.services;
 
 import matrixMath.common.MatrixService;
 import matrixMath.common.RowIteration;
