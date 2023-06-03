@@ -7,3 +7,4 @@ KPI PADC
 
 (МА і т. п. - матриця; А і т. п. - вектор; а і т. п. - скаляр)
 
+<img width="250" alt="part 2" src="https://github.com/KurKing/PADC/assets/38764169/6672a2cd-ecab-4dff-814c-60364fa761b2">
