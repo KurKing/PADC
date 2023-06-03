@@ -10,12 +10,7 @@ public class FileReader {
 
     public static Double readNumberFromFile(String filePath) throws FileNotFoundException {
 
-        return readVectorFromFile(filePath).get(0);
-    }
-
-    public static List<Double> readVectorFromFile(String filePath) throws FileNotFoundException {
-
-        return readMatrixFromFile(filePath).get(0);
+        return readMatrixFromFile(filePath).get(0).get(0);
     }
 
     public static List<List<Double>> readMatrixFromFile(String filenPath) throws FileNotFoundException {

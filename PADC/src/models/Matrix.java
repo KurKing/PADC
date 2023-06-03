@@ -61,6 +61,18 @@ public class Matrix {
         return rows.get(0).size();
     }
 
+    public List<Double> getVector() {
+
+        List<Double> vector = new ArrayList<>(rows.size());
+
+        for (var row: rows) {
+
+            vector.add(row.getItem(0));
+        }
+
+        return vector;
+    }
+
     public void print() {
 
         for (Row row : rows) {

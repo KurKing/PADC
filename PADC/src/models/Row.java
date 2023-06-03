@@ -2,6 +2,7 @@ package models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Row {
 
@@ -37,6 +38,16 @@ public class Row {
 
         List<Double> row = new ArrayList<>(size);
         for (int i = 0; i < size; i++) { row.add(number); }
+
+        return new Row(index, row);
+    }
+
+    public static Row instantiateRandomNumberRow(int index, int size) {
+
+        Random random = new Random();
+        List<Double> row = new ArrayList<>(size);
+
+        for (int i = 0; i < size; i++) { row.add(random.nextDouble() * 10); }
 
         return new Row(index, row);
     }
@@ -83,5 +94,17 @@ public class Row {
     public int size() {
 
         return size;
+    }
+
+    @Override
+    public String toString() {
+
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < data.size(); i++) {
+            sb.append(data.get(i) + " ");
+        }
+
+        return sb.toString();
     }
 }
