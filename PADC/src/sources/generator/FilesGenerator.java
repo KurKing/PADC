@@ -12,13 +12,15 @@ public class FilesGenerator {
 
     public static void main(String[] args) {
 
-        FilesGenerator.writeRandomMatrixInFile(SourcePath.getMBPath(), 500, 500);
-        FilesGenerator.writeRandomMatrixInFile(SourcePath.getMTPath(), 500, 500);
-        FilesGenerator.writeRandomMatrixInFile(SourcePath.getMZPath(), 500, 500);
-        FilesGenerator.writeRandomMatrixInFile(SourcePath.getMEPath(), 500, 500);
+        int matrixSize = 350;
 
-        FilesGenerator.writeRandomMatrixInFile(SourcePath.getAPath(), 500, 1);
-        FilesGenerator.writeRandomMatrixInFile(SourcePath.getCPath(), 500, 1);
+        FilesGenerator.writeRandomMatrixInFile(SourcePath.getMBPath(), matrixSize, matrixSize);
+        FilesGenerator.writeRandomMatrixInFile(SourcePath.getMTPath(), matrixSize, matrixSize);
+        FilesGenerator.writeRandomMatrixInFile(SourcePath.getMZPath(), matrixSize, matrixSize);
+        FilesGenerator.writeRandomMatrixInFile(SourcePath.getMEPath(), matrixSize, matrixSize);
+
+        FilesGenerator.writeRandomMatrixInFile(SourcePath.getAPath(), matrixSize, 1);
+        FilesGenerator.writeRandomMatrixInFile(SourcePath.getCPath(), matrixSize, 1);
     }
 
     public static void writeRandomMatrixInFile(String filePath, int row, int column) {
