@@ -41,6 +41,11 @@ public class Matrix {
         return rows.get(row).getItem(column);
     }
 
+    public List<Row> getRows() {
+
+        return rows;
+    }
+
     public Row getRow(int row) {
 
         return rows.get(row);
