@@ -12,7 +12,7 @@ public class FilesGenerator {
 
     public static void main(String[] args) {
 
-        int matrixSize = 350;
+        int matrixSize = 400;
 
         FilesGenerator.writeRandomMatrixInFile(SourcePath.getMBPath(), matrixSize, matrixSize);
         FilesGenerator.writeRandomMatrixInFile(SourcePath.getMTPath(), matrixSize, matrixSize);
@@ -32,7 +32,7 @@ public class FilesGenerator {
                 writer.write(Row.instantiateRandomNumberRow(0, column).toString());
                 writer.newLine();
             }
-            System.out.println(filePath + " written to file successfully.");
+            System.out.println(filePath + " written successfully.");
 
         } catch (IOException e) {
             System.out.println("An error occurred while writing the matrix to file: " + e.getMessage());
@@ -48,7 +48,7 @@ public class FilesGenerator {
                 writer.write(matrix.getRow(i).toString());
                 writer.newLine();
             }
-            System.out.println(filePath + " written to file successfully.");
+            System.out.println(filePath + " written successfully.");
 
         } catch (IOException e) {
             System.out.println("An error occurred while writing the matrix to file: " + e.getMessage());

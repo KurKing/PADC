@@ -36,6 +36,11 @@ public class Matrix {
         }
     }
 
+    public Matrix(Row row) {
+
+        this.rows.add(row);
+    }
+
     public double getItem(int row, int column) {
 
         return rows.get(row).getItem(column);

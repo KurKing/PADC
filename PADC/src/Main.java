@@ -1,8 +1,6 @@
-import matrixMath.services.MatrixAddService;
-import matrixMath.services.MatrixMaxValueService;
-import matrixMath.services.MatrixNumberMultiplyService;
-import matrixMath.services.MatrixStripeMultiplyService;
+import matrixMath.services.*;
 import models.Matrix;
+import models.Row;
 import sources.generator.FilesGenerator;
 import sources.reader.FileReader;
 import sources.reader.SourcePath;
@@ -15,11 +13,17 @@ public class Main {
 
     public static void main(String[] args) throws FileNotFoundException, InterruptedException {
 
-        MG();
-//        X();
+        var mgTime = MG();
+
+        System.out.println("#######################################################################\n");
+
+        var xTime = X();
+
+        System.out.println("Final time for MG count: " + mgTime);
+        System.out.println("Final time for X count: " + xTime);
     }
 
-    private static void MG() throws FileNotFoundException, InterruptedException {
+    private static long MG() throws FileNotFoundException, InterruptedException {
 
         var A = new Matrix(SourcePath.getAPath());
         var C = new Matrix(SourcePath.getCPath());
@@ -49,14 +53,35 @@ public class Main {
         )).multiply();
 
         var MG = (new MatrixAddService(firstAdder, secondAdder)).add();
-
-        System.out.println("Final time for MG count: " + Duration.between(start, Instant.now()).toMillis());
+        var mgTime = Duration.between(start, Instant.now()).toMillis();
 
         FilesGenerator.writeMatrixInFile(SourcePath.getMGPath(), MG);
+        System.out.println("");
+        MG.print();
+
+        return mgTime;
     }
 
-    private static void X() throws FileNotFoundException {
+    private static long X() throws FileNotFoundException, InterruptedException {
 
-        FilesGenerator.writeMatrixInFile(SourcePath.getXPath(), new Matrix(3, 3, 1));
+        var A = new Matrix(new Row(0, new Matrix(SourcePath.getAPath()).getVector()));
+        var C = new Matrix(SourcePath.getCPath());
+
+        var MB = new Matrix(SourcePath.getMBPath());
+
+        Instant start = Instant.now();
+
+        var minusMinC = -(new MatrixMinValueService(C)).find();
+        var X = new MatrixAddVectorService(
+                (new MatrixNumberMultiplyService(C, minusMinC)).multiply(),
+                (new MatrixStripeMultiplyService(A, MB)).multiply()
+        ).add();
+        var xTime = Duration.between(start, Instant.now()).toMillis();
+
+        FilesGenerator.writeMatrixInFile(SourcePath.getXPath(), X);
+        System.out.println("");
+        X.print();
+
+        return xTime;
     }
 }
