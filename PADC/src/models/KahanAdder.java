@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class KahanAdder {
@@ -21,6 +22,8 @@ public class KahanAdder {
 
         double sum = 0.0;
         double c = 0.0;
+
+        Collections.sort(fa);
 
         for (double f : fa) {
 
