@@ -3,7 +3,8 @@ package models;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.Semaphore;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Row {
 
@@ -13,7 +14,7 @@ public class Row {
     private List<Double> data;
     private List<KahanAdder> kahanAdders;
 
-    private Semaphore semaphore = new Semaphore(1);
+    private Lock lock = new ReentrantLock();
 
     public Row(int index, List<Double> data) {
 
@@ -65,32 +66,23 @@ public class Row {
 
     public void setValue(double value, int index) {
 
-        try {
-
-            semaphore.acquire();
-            data.set(index, value);
-            semaphore.release();
-        } catch (InterruptedException e) { throw new RuntimeException(e); }
+        lock.lock();
+        data.set(index, value);
+        lock.unlock();
     }
 
     public void addValue(double value, int index) {
 
-        try {
-
-            semaphore.acquire();
-            data.set(index, data.get(index) + value);
-            semaphore.release();
-        } catch (InterruptedException e) { throw new RuntimeException(e); }
+        lock.lock();
+        data.set(index, data.get(index) + value);
+        lock.unlock();
     }
 
     public void addKahan(double value, int index) {
 
-        try {
-
-            semaphore.acquire();
-            kahanAdders.get(index).put(value);
-            semaphore.release();
-        } catch (InterruptedException e) { throw new RuntimeException(e); }
+        lock.lock();
+        kahanAdders.get(index).put(value);
+        lock.unlock();
     }
 
     public void completeKahan() {

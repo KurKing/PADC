@@ -2,6 +2,7 @@ package matrixMath.common;
 
 import models.Matrix;
 
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -26,16 +27,17 @@ public class MatrixService {
 
             final int chunkFinal = chunk;
 
-            pool.submit(new Thread(new Runnable() {
+            pool.submit(new Callable<Void>() {
                 @Override
-                public void run() {
+                public Void call() throws Exception {
 
                     for (int row = chunkFinal; row < Math.min(chunkFinal + chunkSize, lhsRowsAmount); row++) {
 
                         iteration.process(row);
                     }
+                    return null;
                 }
-            }));
+            });
         }
 
         pool.shutdown();
