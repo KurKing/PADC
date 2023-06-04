@@ -3,6 +3,7 @@ package models;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Semaphore;
 
 public class Row {
 
@@ -11,6 +12,8 @@ public class Row {
 
     private List<Double> data;
     private List<KahanAdder> kahanAdders;
+
+    private Semaphore semaphore = new Semaphore(1);
 
     public Row(int index, List<Double> data) {
 
@@ -60,19 +63,34 @@ public class Row {
         return data;
     }
 
-    synchronized public void setValue(double value, int index) {
+    public void setValue(double value, int index) {
 
-        data.set(index, value);
+        try {
+
+            semaphore.acquire();
+            data.set(index, value);
+            semaphore.release();
+        } catch (InterruptedException e) { throw new RuntimeException(e); }
     }
 
-    synchronized public void addValue(double value, int index) {
+    public void addValue(double value, int index) {
 
-        data.set(index, data.get(index) + value);
+        try {
+
+            semaphore.acquire();
+            data.set(index, data.get(index) + value);
+            semaphore.release();
+        } catch (InterruptedException e) { throw new RuntimeException(e); }
     }
 
-    synchronized public void addKahan(double value, int index) {
+    public void addKahan(double value, int index) {
 
-        kahanAdders.get(index).put(value);
+        try {
+
+            semaphore.acquire();
+            kahanAdders.get(index).put(value);
+            semaphore.release();
+        } catch (InterruptedException e) { throw new RuntimeException(e); }
     }
 
     public void completeKahan() {
