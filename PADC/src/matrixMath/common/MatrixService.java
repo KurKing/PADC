@@ -2,10 +2,7 @@ package matrixMath.common;
 
 import models.Matrix;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 public class MatrixService {
 
@@ -20,36 +17,12 @@ public class MatrixService {
 
     protected void iterateThroughRows(RowIterationOperator iteration) throws InterruptedException {
 
-        ExecutorService pool = Executors.newCachedThreadPool();
-        final int chunkSize = countChunkSize(lhsRowsAmount, 16-1);
+        var pool = new ForkJoinPool(32);
 
-        for (int chunk = 0; chunk < lhsRowsAmount; chunk += chunkSize) {
-
-            final int chunkFinal = chunk;
-
-            pool.submit(new Callable<Void>() {
-                @Override
-                public Void call() throws Exception {
-
-                    for (int row = chunkFinal; row < Math.min(chunkFinal + chunkSize, lhsRowsAmount); row++) {
-
-                        iteration.process(row);
-                    }
-                    return null;
-                }
-            });
-        }
-
-        pool.shutdown();
-        pool.awaitTermination(100L, TimeUnit.SECONDS);
-    }
-
-    private int countChunkSize(int lhsRowsAmount, int threadsAmount) {
-
-        int chunkSize = MatrixService.this.lhsRowsAmount / threadsAmount;
-
-        if (chunkSize < 1) { return 1; }
-
-        return chunkSize;
+        pool.invoke(new MatrixForkJoinAction(
+                iteration,
+                32,
+                0,
+                lhsRowsAmount));
     }
 }
