@@ -18,11 +18,13 @@ public class MatrixService {
     protected void iterateThroughRows(RowIterationOperator iteration) throws InterruptedException {
 
         var pool = new ForkJoinPool(32);
+        BlockingQueue<Integer> queue = new LinkedBlockingQueue<>(lhsRowsAmount);
+
+        for (int i = 0; i < lhsRowsAmount; i++) { queue.put(i); }
 
         pool.invoke(new MatrixForkJoinAction(
                 iteration,
-                32,
-                0,
-                lhsRowsAmount));
+                queue,
+                32, 0, lhsRowsAmount));
     }
 }
