@@ -2,8 +2,9 @@ package matrixMath.common;
 
 import models.Matrix;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class MatrixService {
 
@@ -18,15 +19,14 @@ public class MatrixService {
 
     protected void iterateThroughRows(RowIterationOperator iteration) throws InterruptedException {
 
-        int threadsAmount = 16-1;
-        List<Thread> threads = new ArrayList<>(threadsAmount);
-
-        final int chunkSize = countChunkSize(lhsRowsAmount, threadsAmount);
+        ExecutorService pool = Executors.newCachedThreadPool();
+        final int chunkSize = countChunkSize(lhsRowsAmount, 16-1);
 
         for (int chunk = 0; chunk < lhsRowsAmount; chunk += chunkSize) {
 
             final int chunkFinal = chunk;
-            Thread task = new Thread(new Runnable() {
+
+            pool.submit(new Thread(new Runnable() {
                 @Override
                 public void run() {
 
@@ -35,16 +35,11 @@ public class MatrixService {
                         iteration.process(row);
                     }
                 }
-            });
-
-            threads.add(task);
-            task.start();
+            }));
         }
 
-        for (Thread thread: threads) {
-
-            thread.join();
-        }
+        pool.shutdown();
+        pool.awaitTermination(100L, TimeUnit.SECONDS);
     }
 
     private int countChunkSize(int lhsRowsAmount, int threadsAmount) {
