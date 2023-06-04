@@ -1,7 +1,7 @@
 package matrixMath.services;
 
 import matrixMath.common.MatrixService;
-import matrixMath.common.RowIteration;
+import matrixMath.common.RowIterationOperator;
 import models.Matrix;
 import models.Row;
 
@@ -21,9 +21,9 @@ public class MatrixAddService extends MatrixService {
 
     public Matrix add() throws InterruptedException {
 
-        iterateThroughRows(new RowIteration() {
+        iterateThroughRows(new RowIterationOperator() {
             @Override
-            public void iterate(int row) {
+            public void process(int row) {
 
                 Row lhsRow = lhs.getRow(row);
                 Row rhsRow = rhs.getRow(row);

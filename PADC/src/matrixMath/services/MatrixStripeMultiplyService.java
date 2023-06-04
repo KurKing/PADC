@@ -1,7 +1,7 @@
 package matrixMath.services;
 
 import matrixMath.common.MatrixService;
-import matrixMath.common.RowIteration;
+import matrixMath.common.RowIterationOperator;
 import models.Matrix;
 import models.Row;
 
@@ -33,9 +33,9 @@ public class MatrixStripeMultiplyService extends MatrixService {
 
     private void setupKahanAdders() throws InterruptedException {
 
-        iterateThroughRows(new RowIteration() {
+        iterateThroughRows(new RowIterationOperator() {
             @Override
-            public void iterate(int row) {
+            public void process(int row) {
 
                 Row resultRow = result.getRow(row);
                 Row lhsRow = lhs.getRow(row);
@@ -56,9 +56,9 @@ public class MatrixStripeMultiplyService extends MatrixService {
 
     private void executeKahan() throws InterruptedException {
 
-        iterateThroughRows(new RowIteration() {
+        iterateThroughRows(new RowIterationOperator() {
             @Override
-            public void iterate(int row) {
+            public void process(int row) {
 
                 result.getRow(row).completeKahan();
             }

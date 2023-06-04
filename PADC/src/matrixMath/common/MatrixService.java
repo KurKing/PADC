@@ -16,7 +16,7 @@ public class MatrixService {
         this.lhsRowsAmount = lhs.getRowsAmount();
     }
 
-    protected void iterateThroughRows(RowIteration iteration) throws InterruptedException {
+    protected void iterateThroughRows(RowIterationOperator iteration) throws InterruptedException {
 
         int threadsAmount = 16-1;
         List<Thread> threads = new ArrayList<>(threadsAmount);
@@ -32,7 +32,7 @@ public class MatrixService {
 
                     for (int row = chunkFinal; row < Math.min(chunkFinal + chunkSize, lhsRowsAmount); row++) {
 
-                        iteration.iterate(row);
+                        iteration.process(row);
                     }
                 }
             });

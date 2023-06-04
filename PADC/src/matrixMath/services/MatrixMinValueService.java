@@ -1,6 +1,6 @@
 package matrixMath.services;
 
-import matrixMath.common.RowIteration;
+import matrixMath.common.RowIterationOperator;
 import models.Matrix;
 
 public class MatrixMinValueService extends MatrixMaxValueService {
@@ -11,9 +11,9 @@ public class MatrixMinValueService extends MatrixMaxValueService {
 
     public Double find() throws InterruptedException {
 
-        iterateThroughRows(new RowIteration() {
+        iterateThroughRows(new RowIterationOperator() {
             @Override
-            public void iterate(int row) {
+            public void process(int row) {
 
                 potentialResultValues.add(lhs.getRow(row).getData()
                         .stream()

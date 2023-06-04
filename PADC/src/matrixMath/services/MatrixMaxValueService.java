@@ -1,7 +1,7 @@
 package matrixMath.services;
 
 import matrixMath.common.MatrixService;
-import matrixMath.common.RowIteration;
+import matrixMath.common.RowIterationOperator;
 import models.Matrix;
 
 import java.util.ArrayList;
@@ -20,9 +20,9 @@ public class MatrixMaxValueService extends MatrixService {
 
     public Double find() throws InterruptedException {
 
-        iterateThroughRows(new RowIteration() {
+        iterateThroughRows(new RowIterationOperator() {
             @Override
-            public void iterate(int row) {
+            public void process(int row) {
 
                 potentialResultValues.add(lhs.getRow(row).getData()
                         .stream()
